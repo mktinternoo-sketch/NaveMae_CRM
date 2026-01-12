@@ -15,105 +15,94 @@ const Sidebar: React.FC<SidebarProps> = ({ activeSection, setActiveSection, clie
 
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: ICONS.Dashboard },
-    { id: 'tasks', label: 'Tarefas CRM', icon: ICONS.Tasks },
+    { id: 'tasks', label: 'Produção', icon: ICONS.Tasks },
     { id: 'tables', label: 'Tabelas', icon: ICONS.Tables },
     { id: 'team', label: 'Equipe', icon: ICONS.Clients },
   ];
 
   return (
-    <div className="w-64 bg-[#fbfbfa] border-r border-[#ececec] h-full flex flex-col group">
-      {/* Workspace Header / User Profile */}
+    <div className="w-64 bg-[#fbfbfa] border-r border-[#ececec] h-full flex flex-col">
       <div 
         onClick={() => setActiveSection('profile')}
-        className="px-4 py-3 flex items-center justify-between hover:bg-[#efefed] cursor-pointer transition-colors border-b border-[#ececec]/50"
+        className="px-5 py-4 flex items-center justify-between hover:bg-[#efefed] cursor-pointer transition-colors border-b border-[#ececec]/30"
       >
-        <div className="flex items-center gap-2 overflow-hidden">
+        <div className="flex items-center gap-3 overflow-hidden">
           <div className="relative">
             {currentUser?.photo ? (
-                <img src={currentUser.photo} className="w-6 h-6 rounded-md object-cover border border-gray-100" alt="User" />
+                <img src={currentUser.photo} className="w-7 h-7 rounded-lg object-cover border border-gray-100 shadow-sm" alt="User" />
             ) : (
-                <div className="w-6 h-6 bg-black rounded flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0">
+                <div className="w-7 h-7 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-[10px] font-black flex-shrink-0">
                 {currentUser?.name[0] || 'A'}
                 </div>
             )}
-            {isUserBirthday && (
-                <div className="absolute -top-1.5 -right-1.5 text-[10px] filter drop-shadow-sm transform -rotate-12">
-                   🎉
-                </div>
-            )}
+            {isUserBirthday && <div className="absolute -top-1.5 -right-1.5 text-[10px]">🎉</div>}
           </div>
           <div className="flex flex-col overflow-hidden">
-            <span className="font-semibold text-xs truncate flex items-center gap-1">
-                {currentUser?.name || 'Agência Workspace'}
-                {isUserBirthday && <span className="text-[8px] bg-red-400 text-white rounded-full px-1">🎂</span>}
-            </span>
-            <span className="text-[10px] text-gray-400 truncate">{currentUser?.email || 'Admin'}</span>
+            <span className="font-bold text-[13px] text-gray-800 truncate">{currentUser?.name || 'Flow Workspace'}</span>
+            <span className="text-[10px] text-gray-400 truncate tracking-tight">{currentUser?.email}</span>
           </div>
-        </div>
-        <div className="text-gray-400">
-          {ICONS.ChevronRight}
         </div>
       </div>
 
-      {/* Main Nav */}
-      <div className="mt-4 px-2 space-y-0.5">
-        <div className="px-2 py-1 text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wider">
-          Geral
-        </div>
+      <div className="mt-6 px-3 space-y-0.5">
+        <div className="px-3 py-2 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Operação</div>
         {navItems.map((item) => (
           <button
             key={item.id}
             onClick={() => setActiveSection(item.id)}
-            className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-md text-sm transition-colors ${
+            className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] transition-all ${
               activeSection === item.id 
-                ? 'bg-[#efefed] font-medium text-black' 
-                : 'text-gray-600 hover:bg-[#efefed] hover:text-black'
+                ? 'bg-indigo-50 text-indigo-600 font-bold shadow-sm shadow-indigo-100' 
+                : 'text-gray-500 hover:bg-[#efefed] hover:text-gray-800'
             }`}
           >
-            {item.icon}
+            <span className={activeSection === item.id ? 'text-indigo-600' : 'text-gray-400'}>{item.icon}</span>
             {item.label}
           </button>
         ))}
       </div>
 
-      {/* Clients Section */}
-      <div className="mt-8 px-2">
-        <div className="px-2 py-1 text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wider flex items-center justify-between">
-          <span>Clientes (Wikipedia)</span>
-          <button className="hover:bg-gray-200 p-0.5 rounded transition-colors text-gray-400">
-            {ICONS.Plus}
-          </button>
+      <div className="mt-8 px-3">
+        <div className="px-3 py-2 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] flex items-center justify-between">
+          <span>Marcas</span>
+          <button className="hover:text-indigo-600 transition-colors">{ICONS.Plus}</button>
         </div>
-        <div className="space-y-0.5 max-h-[35vh] overflow-y-auto">
+        <div className="space-y-0.5 max-h-[40vh] overflow-y-auto">
           {clients.map((client) => (
             <button
               key={client.id}
               onClick={() => setActiveSection(`client-${client.id}`)}
-              className={`w-full flex items-center gap-2.5 px-3 py-1.5 rounded-md text-sm transition-colors text-left ${
+              className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-[13px] text-left transition-all ${
                 activeSection === `client-${client.id}`
-                  ? 'bg-[#efefed] font-medium text-black'
-                  : 'text-gray-600 hover:bg-[#efefed] hover:text-black'
+                  ? 'bg-indigo-50 text-indigo-600 font-bold'
+                  : 'text-gray-500 hover:bg-[#efefed]'
               }`}
             >
-              <div className="w-4 h-4 rounded-sm bg-gray-200 flex-shrink-0 flex items-center justify-center text-[8px]">
-                {client.name[0]}
-              </div>
+              <div className="w-2 h-2 rounded-full bg-indigo-200" />
               <span className="truncate">{client.name}</span>
             </button>
           ))}
         </div>
       </div>
 
-      {/* Bottom Actions */}
-      <div className="mt-auto p-4 border-t border-[#ececec]">
+      <div className="mt-auto p-4 space-y-1">
+        {currentUser?.role === 'Admin' && (
+          <button 
+            onClick={() => setActiveSection('admin')}
+            className={`flex items-center gap-3 text-[13px] w-full px-3 py-2 rounded-xl transition-all ${
+              activeSection === 'admin' ? 'bg-black text-white font-bold' : 'text-gray-500 hover:bg-[#efefed]'
+            }`}
+          >
+            {ICONS.Settings} Admin
+          </button>
+        )}
         <button 
           onClick={() => setActiveSection('profile')}
-          className={`flex items-center gap-2 text-sm transition-colors w-full px-2 py-1.5 rounded-md ${
-            activeSection === 'profile' ? 'bg-[#efefed] text-black font-medium' : 'text-gray-500 hover:text-black hover:bg-[#efefed]'
+          className={`flex items-center gap-3 text-[13px] w-full px-3 py-2 rounded-xl transition-all ${
+            activeSection === 'profile' ? 'bg-[#efefed] text-gray-800 font-bold' : 'text-gray-500 hover:text-gray-800 hover:bg-[#efefed]'
           }`}
         >
-          {ICONS.Settings}
-          Configurações
+          {ICONS.Sparkles} Preferências
         </button>
       </div>
     </div>

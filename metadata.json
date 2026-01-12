@@ -1,6 +1,6 @@
 {
-  "name": "FlowAPP",
-  "description": "Sistema estilo Notion com CRM interno ",
+  "name": "FLOWAPP",
+  "description": "Production OS para agências criativas e designers.",
   "requestFramePermissions": [
     "camera"
   ]

@@ -1,96 +1,60 @@
 
-import React, { useState, useMemo } from 'react';
-import { ICONS, INITIAL_TASKS } from '../constants';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import React, { useMemo } from 'react';
+import { ICONS } from '../constants';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } from 'recharts';
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = ['#6366f1', '#f59e0b', '#ec4899', '#10b981'];
 
 const Dashboard: React.FC = () => {
-  const [selectedMember, setSelectedMember] = useState<string>('Todos');
-  
-  const members = useMemo(() => {
-    const unique = Array.from(new Set(INITIAL_TASKS.map(t => t.assignee)));
-    return ['Todos', ...unique];
-  }, []);
+  // Dados simulados baseados na nova estrutura de produção
+  const stats = [
+    { label: 'Demandas em WIP', value: 24, change: '+5% carga', icon: ICONS.Clock, color: 'text-orange-600', bg: 'bg-orange-100' },
+    { label: 'Entregas (Mês)', value: 142, change: '+12% vs out', icon: ICONS.Tasks, color: 'text-green-600', bg: 'bg-green-100' },
+    { label: 'Taxa de Atraso', value: '8%', change: '-2% melhoria', icon: ICONS.Calendar, color: 'text-red-600', bg: 'bg-red-100' },
+    { label: 'Cycle Time Médio', value: '4.2 dias', change: 'Estável', icon: ICONS.Sparkles, color: 'text-indigo-600', bg: 'bg-indigo-100' },
+  ];
 
-  const chartData = useMemo(() => {
-    const filteredTasks = selectedMember === 'Todos' 
-      ? INITIAL_TASKS 
-      : INITIAL_TASKS.filter(t => t.assignee === selectedMember);
-
-    // Grouping by status for dynamic visual feedback of productivity
-    const statusCounts = {
-      'To Do': 0,
-      'In Progress': 0,
-      'Review': 0,
-      'Done': 0
-    };
-
-    filteredTasks.forEach(t => {
-      statusCounts[t.status]++;
-    });
-
-    return Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
-  }, [selectedMember]);
+  const chartData = [
+    { name: 'Backlog', value: 12 },
+    { name: 'Fazendo', value: 18 },
+    { name: 'Revisão', value: 6 },
+    { name: 'Entregue', value: 45 },
+  ];
 
   return (
-    <div className="flex-1 bg-white h-full overflow-y-auto p-12">
-      <div className="mb-12">
-        <h1 className="text-4xl font-bold tracking-tight mb-2">Bom dia, Agência! 👋</h1>
-        <p className="text-gray-500">Aqui está o que está acontecendo no seu workspace hoje.</p>
+    <div className="flex-1 bg-[#fbfbfa] h-full overflow-y-auto p-10">
+      <header className="mb-10">
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Operação FLOWAPP</h1>
+        <p className="text-gray-500 mt-1">Visão geral de carga, gargalos e entregas da equipe criativa.</p>
+      </header>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        {stats.map((s, i) => (
+          <div key={i} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+            <div className={`w-10 h-10 ${s.bg} ${s.color} rounded-xl flex items-center justify-center mb-4`}>
+              {s.icon}
+            </div>
+            <p className="text-sm font-medium text-gray-400">{s.label}</p>
+            <div className="flex items-baseline gap-2">
+              <span className="text-2xl font-bold text-gray-900">{s.value}</span>
+              <span className="text-[10px] font-bold text-gray-500 uppercase">{s.change}</span>
+            </div>
+          </div>
+        ))}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        <div className="p-6 rounded-2xl border border-gray-100 bg-[#f9f9f9] notion-shadow transition-transform hover:scale-[1.01] cursor-pointer">
-          <div className="w-10 h-10 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center mb-4">
-            {ICONS.Clients}
-          </div>
-          <p className="text-gray-500 text-sm font-medium">Clientes Ativos</p>
-          <p className="text-3xl font-bold mt-1">12</p>
-          <p className="text-xs text-green-600 mt-2 font-medium">+2 este mês</p>
-        </div>
-        
-        <div className="p-6 rounded-2xl border border-gray-100 bg-[#f9f9f9] notion-shadow transition-transform hover:scale-[1.01] cursor-pointer">
-          <div className="w-10 h-10 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center mb-4">
-            {ICONS.Tasks}
-          </div>
-          <p className="text-gray-500 text-sm font-medium">Tarefas Pendentes</p>
-          <p className="text-3xl font-bold mt-1">{INITIAL_TASKS.filter(t => t.status !== 'Done').length}</p>
-          <p className="text-xs text-orange-600 mt-2 font-medium">Fluxo constante</p>
-        </div>
-
-        <div className="p-6 rounded-2xl border border-gray-100 bg-[#f9f9f9] notion-shadow transition-transform hover:scale-[1.01] cursor-pointer">
-          <div className="w-10 h-10 rounded-lg bg-green-100 text-green-600 flex items-center justify-center mb-4">
-            {ICONS.Clock}
-          </div>
-          <p className="text-gray-500 text-sm font-medium">Horas Faturadas</p>
-          <p className="text-3xl font-bold mt-1">164h</p>
-          <p className="text-xs text-gray-400 mt-2 font-medium">Ciclo: Dezembro</p>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white p-8 rounded-2xl border border-gray-100 notion-shadow">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-xl font-bold flex items-center gap-2">
-              {ICONS.Tasks} 
-              Produtividade por Status
-            </h2>
-            <select 
-              value={selectedMember}
-              onChange={(e) => setSelectedMember(e.target.value)}
-              className="text-xs font-medium border border-gray-200 rounded-md px-2 py-1 outline-none bg-white hover:bg-gray-50 cursor-pointer"
-            >
-              {members.map(m => <option key={m} value={m}>{m}</option>)}
-            </select>
-          </div>
-          <div className="h-64">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
+          <h2 className="text-lg font-bold mb-6 flex items-center gap-2">
+            {ICONS.Tasks} Volume de Produção por Etapa
+          </h2>
+          <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} fontSize={10} tick={{fill: '#9ca3af'}} />
-                <YAxis axisLine={false} tickLine={false} fontSize={10} tick={{fill: '#9ca3af'}} allowDecimals={false} />
-                <Tooltip cursor={{fill: '#f9f9f9'}} contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} fontSize={12} tick={{fill: '#9ca3af'}} />
+                <YAxis axisLine={false} tickLine={false} fontSize={12} tick={{fill: '#9ca3af'}} />
+                <Tooltip cursor={{fill: '#f9f9f9'}} contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }} />
                 <Bar dataKey="value" radius={[6, 6, 0, 0]}>
                   {chartData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -101,27 +65,29 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="bg-white p-8 rounded-2xl border border-gray-100 notion-shadow">
-          <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-            {ICONS.Calendar}
-            Agenda de Hoje
+        <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
+          <h2 className="text-lg font-bold mb-6 flex items-center gap-2">
+            {ICONS.Clock} Próximos Prazos
           </h2>
           <div className="space-y-4">
             {[
-              { time: '10:00', title: 'Daily Standup', type: 'Reunião' },
-              { time: '14:00', title: 'Revisão Green Garden', type: 'Design' },
-              { time: '16:30', title: 'Lançamento Campanha', type: 'Performance' },
-            ].map((ev, i) => (
-              <div key={i} className="flex items-center gap-4 p-4 rounded-xl border border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer">
-                <span className="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-1 rounded">{ev.time}</span>
+              { client: 'TechFlow', job: 'Banner Site', due: 'Hoje, 18h', priority: 'P0' },
+              { client: 'Green Co', job: 'Social Pack', due: 'Amanhã', priority: 'P1' },
+              { client: 'AppMaster', job: 'Logo v2', due: '15/Dez', priority: 'P2' },
+            ].map((item, idx) => (
+              <div key={idx} className="flex items-center gap-4 p-3 rounded-xl border border-gray-50 hover:bg-gray-50 transition-colors">
+                <div className={`w-2 h-10 rounded-full ${item.priority === 'P0' ? 'bg-red-500' : 'bg-gray-200'}`} />
                 <div className="flex-1">
-                  <h4 className="text-sm font-semibold">{ev.title}</h4>
-                  <p className="text-xs text-gray-400">{ev.type}</p>
+                  <h4 className="text-sm font-bold text-gray-800">{item.job}</h4>
+                  <p className="text-[10px] text-gray-400 font-bold uppercase">{item.client}</p>
                 </div>
-                {ICONS.ChevronRight}
+                <span className="text-[10px] font-bold text-gray-500">{item.due}</span>
               </div>
             ))}
           </div>
+          <button className="w-full mt-6 py-2 text-xs font-bold text-gray-400 hover:text-indigo-600 transition-colors">
+            Ver calendário completo
+          </button>
         </div>
       </div>
     </div>

@@ -24,7 +24,8 @@ import {
   Cake,
   PartyPopper,
   Camera,
-  Gift
+  Gift,
+  Image as ImageIcon
 } from 'lucide-react';
 
 export const ICONS = {
@@ -51,14 +52,16 @@ export const ICONS = {
   Cake: <Cake size={18} />,
   PartyPopper: <PartyPopper size={18} />,
   Camera: <Camera size={16} />,
-  Gift: <Gift size={16} />
+  Gift: <Gift size={16} />,
+  Image: <ImageIcon size={16} />
 };
 
 export const INITIAL_CLIENTS = [
   {
     id: '1',
     name: 'TechFlow Solutions',
-    logo: 'https://picsum.photos/seed/tech/100/100',
+    logo: 'https://picsum.photos/seed/tech/200/200',
+    cover_url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=2000',
     description: 'Empresa de software sediada em São Paulo.',
     wiki: '# Wiki do Cliente: TechFlow\n\nEste cliente é focado em soluções B2B SaaS. \n\n### Pontos Principais\n- Contato principal: Roberto Silva\n- Orçamento mensal: R$ 15.000\n- Foco atual: SEO e Campanhas de Performance.',
     links: [
@@ -70,7 +73,8 @@ export const INITIAL_CLIENTS = [
   {
     id: '2',
     name: 'Green Garden Co.',
-    logo: 'https://picsum.photos/seed/garden/100/100',
+    logo: 'https://picsum.photos/seed/garden/200/200',
+    cover_url: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=2000',
     description: 'E-commerce de plantas e jardinagem.',
     wiki: '# Green Garden Wiki\n\nFocado em sustentabilidade e design.\n\n### Estratégia\n- Redes Sociais: Instagram é o canal principal.\n- Influenciadores: Campanha ativa com 5 micro-influenciadores.',
     links: [
