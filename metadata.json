@@ -1,0 +1,7 @@
+{
+  "name": "FlowAPP",
+  "description": "Sistema estilo Notion com CRM interno ",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
