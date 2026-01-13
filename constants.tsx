@@ -10,6 +10,8 @@ import {
   Search, 
   MoreHorizontal, 
   ChevronRight,
+  ChevronLeft,
+  Menu,
   Hash,
   Link as LinkIcon,
   FileText,
@@ -25,7 +27,8 @@ import {
   PartyPopper,
   Camera,
   Gift,
-  Image as ImageIcon
+  Image as ImageIcon,
+  Filter
 } from 'lucide-react';
 
 export const ICONS = {
@@ -38,6 +41,8 @@ export const ICONS = {
   Search: <Search size={18} />,
   More: <MoreHorizontal size={18} />,
   ChevronRight: <ChevronRight size={18} />,
+  ChevronLeft: <ChevronLeft size={18} />,
+  Menu: <Menu size={18} />,
   Hash: <Hash size={18} />,
   Link: <LinkIcon size={18} />,
   File: <FileText size={18} />,
@@ -53,7 +58,8 @@ export const ICONS = {
   PartyPopper: <PartyPopper size={18} />,
   Camera: <Camera size={16} />,
   Gift: <Gift size={16} />,
-  Image: <ImageIcon size={16} />
+  Image: <ImageIcon size={16} />,
+  Filter: <Filter size={16} />
 };
 
 export const INITIAL_CLIENTS = [
@@ -93,7 +99,9 @@ export const INITIAL_TASKS = [
     priority: 'High' as const,
     assignee: 'Alice',
     dueDate: '2023-12-15',
-    clientId: '1'
+    clientId: '1',
+    type: 'SEO',
+    tags: ['Performance', 'Relatório']
   },
   {
     id: 't2',
@@ -103,7 +111,9 @@ export const INITIAL_TASKS = [
     priority: 'Medium' as const,
     assignee: 'Bob',
     dueDate: '2023-12-20',
-    clientId: '2'
+    clientId: '2',
+    type: 'Design',
+    tags: ['Social Media', 'Natal']
   },
   {
     id: 't3',
@@ -113,7 +123,9 @@ export const INITIAL_TASKS = [
     priority: 'High' as const,
     assignee: 'Alice',
     dueDate: '2023-12-18',
-    clientId: '1'
+    clientId: '1',
+    type: 'Tráfego',
+    tags: ['Google Ads']
   },
   {
     id: 't4',
@@ -123,7 +135,9 @@ export const INITIAL_TASKS = [
     priority: 'Low' as const,
     assignee: 'Bob',
     dueDate: '2023-12-10',
-    clientId: '2'
+    clientId: '2',
+    type: 'Copywriting',
+    tags: ['E-mail Marketing']
   }
 ];
 

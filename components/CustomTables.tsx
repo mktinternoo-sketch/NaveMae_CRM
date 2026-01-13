@@ -33,6 +33,17 @@ const CustomTables: React.FC = () => {
     setTables(tables.map(t => t.id === activeTable.id ? { ...t, rows: [...t.rows, newRow] } : t));
   };
 
+  const deleteRow = (rowId: string) => {
+    if (window.confirm('Excluir este registro permanentemente?')) {
+      setTables(prev => prev.map(t => {
+        if (t.id === activeTable.id) {
+          return { ...t, rows: t.rows.filter(r => r.id !== rowId) };
+        }
+        return t;
+      }));
+    }
+  };
+
   const createTable = () => {
     const newTable: CustomTable = {
       id: Math.random().toString(36).substr(2, 9),
@@ -62,9 +73,6 @@ const CustomTables: React.FC = () => {
             className="text-sm font-medium text-gray-600 hover:bg-gray-100 px-4 py-2 rounded-lg border border-gray-200"
           >
             Nova Tabela
-          </button>
-          <button className="text-sm font-medium bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors">
-            Exportar CSV
           </button>
         </div>
       </div>
@@ -98,8 +106,12 @@ const CustomTables: React.FC = () => {
                     />
                   </td>
                 ))}
-                <td className="px-4 py-3 text-right opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button className="text-gray-300 hover:text-red-500">
+                <td className="px-4 py-3 text-right">
+                  <button 
+                    onClick={() => deleteRow(row.id)}
+                    className="text-gray-200 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all p-2 rounded-lg hover:bg-red-50"
+                    title="Excluir linha"
+                  >
                     {ICONS.Trash}
                   </button>
                 </td>
@@ -109,7 +121,7 @@ const CustomTables: React.FC = () => {
               <td colSpan={activeTable.columns.length + 2}>
                 <button 
                   onClick={addRow}
-                  className="w-full py-3 text-left px-12 text-gray-400 hover:text-gray-600 hover:bg-gray-50 text-sm transition-colors flex items-center gap-2"
+                  className="w-full py-4 text-left px-12 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50/30 text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2"
                 >
                   {ICONS.Plus} Novo Registro
                 </button>

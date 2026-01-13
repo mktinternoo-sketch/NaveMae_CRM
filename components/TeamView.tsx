@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import { User } from '../types';
 import { ICONS, isBirthdayToday } from '../constants';
 
-const TeamView: React.FC = () => {
-  const [members, setMembers] = useState<User[]>([
-    { id: 'u1', name: 'Alice Silva', email: 'alice@agencia.com', role: 'Admin', joinedAt: '10/11/2023', photo: 'https://i.pravatar.cc/150?u=alice', birthDate: '1995-12-15' },
-    { id: 'u2', name: 'Bob Junior', email: 'bob@agencia.com', role: 'Member', joinedAt: '12/11/2023', photo: 'https://i.pravatar.cc/150?u=bob', birthDate: '1992-05-20' },
-  ]);
+interface TeamViewProps {
+  members: User[];
+  setMembers: React.Dispatch<React.SetStateAction<User[]>>;
+}
 
+const TeamView: React.FC<TeamViewProps> = ({ members, setMembers }) => {
   const [isAdding, setIsAdding] = useState(false);
   const [newEmail, setNewEmail] = useState('');
   const [newName, setNewName] = useState('');

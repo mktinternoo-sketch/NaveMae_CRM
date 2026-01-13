@@ -93,6 +93,8 @@ export interface Task {
   assignee: string;
   dueDate: string;
   clientId: string;
+  type?: string;
+  tags?: string[];
 }
 
 export interface TableColumn {
